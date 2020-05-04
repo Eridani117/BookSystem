@@ -1,2 +1,3 @@
-# J2ee_tmall
-J2ee_tmall for the scholl lab
+# Book System
+Book System for the java web lab.
+Using spring boot, spring mvc, jdbc, jsp.
