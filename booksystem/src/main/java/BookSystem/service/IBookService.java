@@ -6,7 +6,7 @@ import BookSystem.entity.Book;
 
 public interface IBookService {
 	
-	public Book queryBookBySno(int sno);
+	public Book queryBookBybookNo(int bookNo);
 
 	// 查询全部学生
 	public List<Book> queryAllBooks();
