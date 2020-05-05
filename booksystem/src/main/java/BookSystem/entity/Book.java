@@ -1,9 +1,21 @@
-package org.CUIT.BookSystem.entity;
+package BookSystem.entity;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class Book {
+	
+	private int bookNo;
+	private String bookName;
+	
+	public Book() {
+		super();
+	}
+	public Book(int bookNo, String bookName) {
+		super();
+		this.bookNo = bookNo;
+		this.bookName = bookName;
+	}
 	public int getBookNo() {
 		return bookNo;
 	}
@@ -16,6 +28,5 @@ public class Book {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
-	private int bookNo;
-	private String bookName;
+	
 }

@@ -1,13 +1,13 @@
-package org.CUIT.BookSystem;
+package BookSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BookSystemApplication {
+public class BooksystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BookSystemApplication.class, args);
+		SpringApplication.run(BooksystemApplication.class, args);
 	}
 
 }
