@@ -29,7 +29,7 @@ public class DBUtil {
 		int count = -1;
 		try {
 			pstmt = createPreParedStatement(sql, null);
-			rs = pstmt.executeQuery();// 88
+			rs = pstmt.executeQuery();// 
 			if (rs.next()) {
 				count = rs.getInt(1);
 			}
@@ -41,7 +41,7 @@ public class DBUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			closeAll(rs, pstmt, connection);
+			closeAll(rs, pstmt);
 		}
 		return count;
 	}
@@ -71,39 +71,8 @@ public class DBUtil {
 			e.printStackTrace();
 			return false;
 		} finally {
-			closeAll(null, pstmt, connection);
+			closeAll(null, pstmt);
 		}
-	}
-
-	// Statement
-	public static void closeAll(ResultSet rs, Statement stmt, Connection connection) {
-		try {
-			if (rs != null)
-				rs.close();
-			if (pstmt != null)
-				pstmt.close();
-			if (connection != null)
-				connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName(DRIVERCLASS);
-		return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-	}
-
-	public static PreparedStatement createPreParedStatement(String sql, Object[] params)
-			throws ClassNotFoundException, SQLException {
-		pstmt = getConnection().prepareStatement(sql);
-		if (params != null) {
-			for (int i = 0; i < params.length; i++) {
-				pstmt.setObject(i + 1, params[i]);
-			}
-		}
-		return pstmt;
 	}
 
 	// 通用的查 :通用 表示 适合与 任何查询
@@ -127,6 +96,43 @@ public class DBUtil {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	// Statement
+	public static void closeAll(ResultSet rs, Statement stmt) {
+
+		try {
+			connection = DBUtil.getConnection();
+			if (rs != null)
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+			if (connection != null)
+				connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName(DRIVERCLASS);
+		return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+	}
+
+	public static PreparedStatement createPreParedStatement(String sql, Object[] params)
+			throws ClassNotFoundException, SQLException {
+		pstmt = getConnection().prepareStatement(sql);
+		if (params != null) {
+			for (int i = 0; i < params.length; i++) {
+				pstmt.setObject(i + 1, params[i]);
+			}
+		}
+		return pstmt;
 	}
 
 }

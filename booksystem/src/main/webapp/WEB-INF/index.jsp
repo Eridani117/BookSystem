@@ -1,4 +1,4 @@
-<%@page import="BookSystem.entity.Book"%>
+<%@page import="BookSystem.book.Book"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -23,11 +23,19 @@
 	//否则：1 确实执行了增加    2直接访问查询全部页面
 	String error = (String) request.getAttribute("error");//addError
 	if (error != null) {
-		if (error.equals("addError")) {
+		if (error.equals("Add Error")) {
 			out.print("增加失败！");
-		} else if (error.equals("noaddError")) {
+		} else if (error.equals("No Add Error")) {
 			out.print("增加成功！");
-		} //根本没有执行增加
+		} else if (error.equals("Update Error")) {
+			out.print("修改失败！");
+		} else if (error.equals("No Update Error")) {
+			out.print("修改成功！");
+		} else if (error.equals("Delete Error")) {
+			out.print("刪除失败！");
+		} else if (error.equals("No Delete Error")) {
+			out.print("刪除成功！");
+		} //根本没有执行
 	}
 	%>
 
@@ -39,26 +47,22 @@
 		</tr>
 
 		<%
-			//获取request域中的数据
+			//获取request域中的数据 QueryBookInfoBybookNo
 		List<Book> books = (List<Book>) request.getAttribute("books");
 		for (Book book : books) {
 		%>
 		<tr>
-			<td><a
-				href="QueryStudentBySnoServlet?sno=<%=book.getBookNo()%>"><%=book.getBookNo()%></a>
-			</td>
-
-
+			<td><a href="QueryBookInfoBybookNo?bookNo=<%=book.getBookNo()%>"><%=book.getBookNo()%></a></td>
 			<td><%=book.getBookName()%></td>
-			<td><a href="DeleteStudentServlet?sno=<%=book.getBookNo()%>   ">删除</a>
+			<td><a href="DeleteBook?bookNo=<%=book.getBookNo()%>   ">删除</a>
 			</td>
-
 		</tr>
 		<%
 			}
 		%>
 
 	</table>
-	<a href="add.jsp">新增</a>
+	<a href="add">新增</a>
+	<br>修改就是先点击数字，查看数据然后再修改，书号已设置为不可修改。
 </body>
 </html>

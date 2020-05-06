@@ -1,61 +1,52 @@
-package BookSystem.service.impl;
+package BookSystem.book;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import BookSystem.BookDao.IBookDao;
-import BookSystem.entity.Book;
-import BookSystem.service.IBookService;
-
 @Service
-public class BookServiceImpl implements IBookService {
+public class BookService {
 
 	@Autowired
-	IBookDao bookDao;
+	BookDao bookDao;
 
-	@Override
 	public Book queryBookBybookNo(int bookNo) {
-		
+
 		return bookDao.queryBookBybookNo(bookNo);
 	}
 
-	@Override
 	public List<Book> queryAllBooks() {
 		return bookDao.queryAllBooks();
 	}
 
-	@Override
 	public List<Book> queryBooksByPage(int currentPage, int pageSize) {
 		return bookDao.queryAllBooksByPage(currentPage, pageSize);
 	}
 
-	@Override
 	public int getTotalCount() {
 		return bookDao.getTotalCount();
 	}
 
-	@Override
 	public boolean updateBookBybookNo(int bookNo, Book book) {
-		if(!bookDao.isExist(bookNo)) {
-			bookDao.updateStudentBySno(bookNo, book);
+		if (bookDao.isExist(bookNo)) {
+			bookDao.updateBookBybookNo(bookNo, book);
+			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public boolean deleteBookBybookNo(int bookNo) {
-		if(!bookDao.isExist(bookNo)) {
+		if (bookDao.isExist(bookNo)) {
 			bookDao.deleteBookBybookNo(bookNo);
+			return true;
 		}
 		return false;
 	}
 
-	@Override
 	public boolean addBook(Book book) {
 		if (!bookDao.isExist(book.getBookNo())) {
-			bookDao.addStudent(book);
+			bookDao.addBook(book);
 			return true;
 		} else {
 			System.out.println("增加的书已存在");

@@ -12,16 +12,14 @@
 		var sname = $("#sname").val();
 		var sage = $("#sage").val();
 		var saddress = $("#saddress").val();
-		if (!(sno > 0 && sno < 101)) {
-			alert("学号有误！必须是1-100")
+		if (!(sno > 0 && sno < 100000)) {
+			alert("书学号有误！必须是1-100000")
 			return false;
 		}
-		if (!(sname.length > 1 & sname.length < 5)) {
-			alert("姓名长度有误！必须是2-4位")
+		if (!(sname.length > 1 & sname.length < 10)) {
+			alert("书姓名长度有误！必须是2-10位")
 			return false;
 		}
-
-		//if(...) return false ;
 
 		return true;
 	}
@@ -34,13 +32,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="AddStudentServlet" method="post"
+	<form action="AddBook" method="get"
 		onsubmit="return check()">
-		学号：<input type="text" name="sno" id="sno" /><br /> 姓名：<input
-			type="text" name="sname" id="sname" /><br /> 年龄：<input type="text"
-			name="sage" id="sage" /><br /> 地址：<input type="text" name="saddress"
-			id="saddress" /><br /> <input type="submit" value="新增" /><br />
-
+		书号：<input type="text" name="bookNo" id="bookNo" /><br /> 
+		书名：<input type="text" name="bookName" id="bookName" /><br /> 
+		<input type="submit" value="新增" /><br /><a href="back">返回</a>
 	</form>
 </body>
 </html>

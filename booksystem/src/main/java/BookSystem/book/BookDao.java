@@ -1,6 +1,5 @@
-package BookSystem.BookDao.impl;
+package BookSystem.book;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,41 +7,35 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import BookSystem.BookDao.IBookDao;
 import BookSystem.DButil.DBUtil;
-import BookSystem.entity.Book;
 
 @Repository
-public class BookDaoImpl implements IBookDao {
+public class BookDao {
 
-	@Override
-	public boolean addStudent(Book book) {
-		String sql = "insert into student(bookNo,bookName) values(?,?) ";
+	public boolean addBook(Book book) {
+		String sql = "insert into book(bookNo,bookName) values(?,?) ";
 		Object[] params = { book.getBookNo(), book.getBookName() };
 		return DBUtil.executeUpdate(sql, params);
 	}
 
-	@Override
-	public boolean updateStudentBySno(int bookNo, Book book) {
-		String sql = "update student set bookNo =?,bookName=?";
-		Object[] params = { book.getBookNo(), book.getBookName() };
+	public boolean updateBookBybookNo(int bookNo, Book book) {
+		String sql = "update book set bookName=? WHERE bookNo = ?";
+		
+		Object[] params = {  book.getBookName(),bookNo };
 		return DBUtil.executeUpdate(sql, params);
 	}
 
-	@Override
 	public int getTotalCount() {
 		String sql = "select count(*) from book";
 		return DBUtil.getTotalCount(sql);
 	}
 
-	@Override
 	public boolean deleteBookBybookNo(int bookNo) {
 		String sql = "delete from book where bookNo = ?";
 		Object[] params = { bookNo };
 		return DBUtil.executeUpdate(sql, params);
 	}
 
-	@Override
 	public List<Book> queryAllBooks() {
 		Book book = null;
 		List<Book> books = new ArrayList<>();
@@ -64,14 +57,13 @@ public class BookDaoImpl implements IBookDao {
 			e.printStackTrace();
 			return null;
 		} finally {
-			DBUtil.closeAll(rs, DBUtil.pstmt, DBUtil.connection);
+			DBUtil.closeAll(rs, DBUtil.pstmt);
 		}
 	}
 
-	@Override
 	public List<Book> queryAllBooksByPage(int currentPage, int pageSize) {
 		String sql = "select *from " + "(" + "select rownum r, t.* from"
-				+ "(select s.* from student s order by sno asc) t "
+				+ "(select s.* from book s order by bookNo asc) t "
 
 				+ "where rownum<=?" + ")" + "where r>=?";
 		Object[] params = { currentPage * pageSize, (currentPage - 1) * pageSize + 1 };
@@ -93,32 +85,27 @@ public class BookDaoImpl implements IBookDao {
 		return books;
 	}
 
-	@Override
 	public boolean isExist(int bookNo) {
-		return queryBookBybookNo(bookNo) == null ? false : true;
+		boolean flag = queryBookBybookNo(bookNo) == null ? false : true;
+		System.out.println(flag);
+		return flag;
 	}
 
-	@Override
 	public Book queryBookBybookNo(int bookNo) {
 		Book book = null;
-		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			DBUtil.getConnection();
-			String sql = "select * from student where sno =? ";
-			pstmt = DBUtil.connection.prepareStatement(sql);
-			pstmt.setInt(1, bookNo);
-			rs = pstmt.executeQuery();
+			String sql = "select * from book where bookNo =? ";
+			Object[] params = { bookNo };
+			rs = DBUtil.executeQuery(sql, params);
+			
+			
 			if (rs.next()) {
 				bookNo = rs.getInt("bookNo");
 				String bookName = rs.getString("bookName");
-
 				book = new Book(bookNo, bookName);
 			}
 			return book;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -126,7 +113,7 @@ public class BookDaoImpl implements IBookDao {
 			e.printStackTrace();
 			return null;
 		} finally {
-			DBUtil.closeAll(rs, DBUtil.pstmt, DBUtil.connection);
+			DBUtil.closeAll(rs, DBUtil.pstmt);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package BookSystem.entity;
+package BookSystem.book;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +29,9 @@ public class Book {
 		this.bookName = bookName;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return this.bookNo+"  "+this.bookName;
+	}
 }
