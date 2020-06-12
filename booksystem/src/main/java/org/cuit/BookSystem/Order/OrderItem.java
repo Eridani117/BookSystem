@@ -2,7 +2,14 @@ package org.cuit.BookSystem.Order;
 
 import org.springframework.stereotype.Repository;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Repository
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItem {
 
 	private String id;
@@ -16,56 +23,4 @@ public class OrderItem {
 	private double price;
 	private int quantity;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getOrder_id() {
-		return order_id;
-	}
-
-	public void setOrder_id(String order_id) {
-		this.order_id = order_id;
-	}
-
-	public String getBook_id() {
-		return book_id;
-	}
-
-	public void setBook_id(String book_id) {
-		this.book_id = book_id;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public OrderItem() {
-		super();
-	}
-
-	public OrderItem(String id, String order_id, String book_id, double price, int quantity) {
-		super();
-		this.id = id;
-		this.order_id = order_id;
-		this.book_id = book_id;
-		this.price = price;
-		this.quantity = quantity;
-	}
 }
